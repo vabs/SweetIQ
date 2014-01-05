@@ -33,8 +33,8 @@ def find_location():
     print "Review callback " , review_callback_url
 
     req_params = { 
-        'location': '{"name": "%s", "address": "%s", "phone": "%s"}' % ( name, address, phone )
-        'listing_callback_url' : listing_callback_url
+        'location': '{"name": "%s", "address": "%s", "phone": "%s"}' % ( name, address, phone ),
+        'listing_callback_url' : listing_callback_url,
         'review_callback_url' : review_callback_url,
         'completed_callback_url': 
 
