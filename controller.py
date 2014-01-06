@@ -91,7 +91,7 @@ def get_data(token_id):
     rating =  float(tot_rating)/len(reviews)
 
     return render_template('listings.html', all_listing={ 'name': location_name, 
-        'listings':listings, rating: rating)
+        'listings':listings, rating: rating})
 
 
 
