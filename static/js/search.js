@@ -47,13 +47,15 @@ function isComplete(sId){
 function poller(sId){
 	isComplete(sId);
 	if(parseInt(isDone) != 1 && parseInt(isDone) != -1){
+                console.log( "Is done : " + isDone);
 		setTimeout(function(){ poller(sId) }, 5000);
 	}
 	if(parseInt(isDone) == -1 ){
 		$.get('/error');
 	}
 	else{
-		window.location('/getData/'+ sId);
+                console.log( "Is done : " + isDone);
+		window.location.href = '/getData/'+ sId;
 	}
 }
 
