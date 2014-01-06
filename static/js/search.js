@@ -35,7 +35,7 @@ $(function(){
 
 function poller(sId){
 	isComplete(sId);
-	while(isDone != 1){
+	while(parseInt(isDone) != 1){
 		setTimeout(isComplete(sId), 5000);
 	}
 	$.get('/getData', {sid: sId});

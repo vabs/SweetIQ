@@ -60,6 +60,9 @@ def find_location():
 
 @app.route('/isComplete/<token_id>')
 def is_complete(token_id):
+    print "IS complete"
+    print app.tokens
+    print token_id
     return app.tokens[token_id]
 
 
