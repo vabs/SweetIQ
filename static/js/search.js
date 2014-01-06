@@ -42,6 +42,7 @@ function poller(sId){
 }
 
 function isComplete(sId){
+	$.blockUI({ message: '<h1>Searching for places...</h1>' }); 
 	$.ajax({
 			url: "/isComplete/" + sId,
 			data: {
