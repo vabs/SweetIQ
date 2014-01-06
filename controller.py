@@ -83,7 +83,7 @@ def get_data(token_id):
 
     listings = Listing.query.filter(Listing.location_id==token_id).all()
 
-    return render_template('listings.html', {'all_listings' : { 'name': location_name, 
+    return render_template('listings.html', all_listings={ 'name': location_name, 
                     'listings':listings 
             }})
 
