@@ -35,7 +35,7 @@ $(function(){
 })
 
 function isComplete(sId){
-	$.blockUI({ message: '<h1>Searching for places...</h1>' }); 
+	$.blockUI({ message: '<h1>Searching for places</h1>' }); 
 	$.ajax({
 			url: "/isComplete/" + sId,
 			success: function(res){
