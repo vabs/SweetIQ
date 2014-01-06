@@ -231,6 +231,10 @@ height: 120px;
 width: 120px;
 }
 
+h1, h3 div.title{
+    color: black;
+}
+
 @media (min-width: 768px) {
     .navbar.navbar-default {
         border-width: 0px 0px 1px;
@@ -342,5 +346,8 @@ width: 120px;
         left: 0px;
         z-index: 150;
         width: 100%;
+    }
+    h1, h3 div.title{
+        color: black;
     }
 }
