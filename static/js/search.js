@@ -1,9 +1,9 @@
 $(function(){
 	$("#searchBtn").click(function(){
-		var name = $("#location").val()
+		var nam = $("#location").val()
 		var phno = $("#phonenumber").val()
 		var add = $("#address").val()
-		if(name == ''){
+		if(nam == ''){
 			$("#location").css("border", "2px solid red");
 		}
 		else if(add == ''){
@@ -21,11 +21,7 @@ $(function(){
 			$("#phonenumber").css("border", "none");
 			$.ajax(function(){
 				url: '/find',
-				data: {
-					name: name,
-					address: add,
-					phone: phno
-				},
+				data: { name: nam, address: add, phone: phno },
 				success: function(sessionId){
 					console.log(sessionId)
 					poller(sessionId)
@@ -42,15 +38,7 @@ function poller(sId){
 	while(isDone != 1){
 		setTimeout(isComplete(sId), 5000)
 	}
-	$.ajax(function(){
-			url: '/getData/' + sId,
-			data: {
-				sessionId: sId
-			},
-			success: function(res){
-				isDone = res
-			}
-		})
+	$.get('/getData'+ sId);
 }
 
 function isComplete(sId){
