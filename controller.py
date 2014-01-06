@@ -72,7 +72,7 @@ def is_complete(token_id):
     print token_id
     if token_id not in app.tokens:
         return "-1"
-
+    app.tokens[token_id] = 1
     return str(app.tokens[token_id])
 
 

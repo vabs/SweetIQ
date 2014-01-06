@@ -48,7 +48,7 @@ function poller(sId){
 	isComplete(sId);
 	if(parseInt(isDone) != 1 && parseInt(isDone) != -1){
                 console.log( "Is done : " + isDone);
-		setTimeout(function(){ poller(sId) }, 5000);
+		setTimeout(function(){ poller(sId) }, 40000);
 	} else {
             if(parseInt(isDone) == -1 ){
                     $.get('/error');
