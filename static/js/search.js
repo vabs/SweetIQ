@@ -38,12 +38,12 @@ function poller(sId){
 	while(isDone != 1){
 		setTimeout(isComplete(sId), 5000);
 	}
-	$.get('/getData'+ sId);
+	$.get('/getData', {sid: sId});
 }
 
 function isComplete(sId){
-	$.ajax(function(){
-			url: '/isComplete/' + sId,
+	$.ajax({
+			url: "/isComplete/" + sId,
 			data: {
 				name: name,
 				address: add,
