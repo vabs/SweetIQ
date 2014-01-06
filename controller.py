@@ -4,6 +4,8 @@ import random
 import uuid
 import json
 import requests
+from model  import db,Listing,Reviews,Location
+
 
 APP_URL = os.environ.get('URL', 'http://evening-escarpment-1123.herokuapp.com/')
 app = Flask(__name__)
@@ -76,18 +78,39 @@ def get_data(token_id):
             }})
 
 
+@app.route('/error')
+def error():
+    render_template('error.html')
+
 
 @app.route('/listing_callback', methods = ['GET', 'POST'])
 def listing_callback():
     print "listing callback"
-    print app.tokens
-    print request.form
+    
+    listing_resp = request.form.get('listing')
+    if listing_resp:
+        name = listing_resp.get('name')
+        domain = listing_resp.get('domain')
+        location_id = request.form.get('token_id')
+        listing = Listing(location_id = location_id, name=name, domain=domain)
+        db.session.add(listing)
+        db.session.commit()
+    
     return "OK"
 
 
 @app.route('/review_callback', methods = ['GET', 'POST'])
 def review_callback():
     print "review callback"
+    location_id = request.form.get('token_id')
+    review_resp = reqpest.form.get('review')
+    if review_resp:
+        review_id = review_resp.get('review_id')
+        rating = review_resp.get('rating')
+        review = Review(review_id=review_id, rating=rating, location_id=location_id)
+        db.session.add(review)
+        db.session.commit()
+
     print app.tokens
     print request.form
     return "OK"
@@ -97,6 +120,8 @@ def completed_callback():
     print "completed callback"
     print app.tokens
     print request.form
+    token_id = request.form.get('token_id')
+    app[token_id] = 1
     return "OK"
 
 
