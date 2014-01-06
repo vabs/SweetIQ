@@ -86,7 +86,7 @@ def get_data(token_id):
     
     tot_rating = 0;
     for rev in reviews:
-        avg_rating += rev.rating
+        tot_rating += rev.rating
 
     rating =  float(tot_rating)/len(reviews)
 
