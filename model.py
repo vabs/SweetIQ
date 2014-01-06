@@ -10,7 +10,7 @@ class Location(db.Model):
     location_id = db.Column(db.String(100), primary_key=True)
     account_id = db.Column(db.String(100))
     location_name = db.Column(db.String(200))
-    address = db.Column(db.String(200), unique=True)
+    address = db.Column(db.String(200))
     tel = db.Column(db.String(200))
 
 
