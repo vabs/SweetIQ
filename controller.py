@@ -8,10 +8,14 @@ import requests
 APP_URL = os.environ.get('URL', 'http://evening-escarpment-1123.herokuapp.com/')
 app = Flask(__name__)
 app.debug = True
+setattr(app,'tokens', {})
+
 
 @app.route('/')
 def hello():
     return render_template('home.html')
+
+
 
 
 
@@ -48,25 +52,42 @@ def find_location():
 
     siq_url = 'https://app.ait.gmlapi.com:8080/advance-it'
     response = requests.get(siq_url, params = req_params, verify=False)
-    print "response from siq ", response
+    siq_response = json.loads(response.text)
+    token_id = siq_response.get('token_id')
+    app.tokens[token_id] = 0
+    return token_id
 
-    return "Hello" 
+
+@app.route('isComplete/<token_id>')
+def is_complete(token_id):
+    return app.tokens[token_id]
+
+
+@app.route('getData/<token_id>')
+def get_data(token_id):
+    return render_template('listings.html', {'all_listings' : { 'name': "Test", 
+                    'listings': []
+            }})
+
 
 
 @app.route('/listing_callback', methods = ['GET', 'POST'])
 def listing_callback():
     print "listing callback"
     print request.form
+    return "OK"
 
 
 @app.route('/review_callback', methods = ['GET', 'POST'])
 def review_callback():
     print "review callback"
     print request.form
+    return "OK"
 
 @app.route('/completed_callback', methods = ['GET', 'POST'])
 def completed_callback():
     print "completed callback"
     print request.form
+    return "OK"
 
 

@@ -13,26 +13,12 @@ class Location(db.Model):
     address = db.Column(db.String(200), unique=True)
     tel = db.Column(db.String(200))
 
-    def __init__(self, username, email):
-        self.username = username
-        self.email = email
-
-    def __repr__(self):
-        return '<User %r>' % self.username
 
 class Listing(db.Model):
     listing_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     location_id = db.Column(db.String, db.ForeignKey('location.location_id'), index=True)
     domain = db.Column(db.String(150))
     name = db.Column(db.String(150))
-
-
-    def __init__(self, username, email):
-        self.username = username
-        self.email = email
-
-    def __repr__(self):
-        return '<User %r>' % self.username
 
 
 class Reviews(db.Model):
