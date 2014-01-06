@@ -6,7 +6,7 @@ import json
 import requests
 
 APP_URL = os.environ.get('URL', 'localhost')
-app = Flask(__name__)
+app = Flask(__name__, debug=True)
 
 @app.route('/')
 def hello():
