@@ -160,12 +160,12 @@ color: #ffffff;
 }
 
 div.page-header h1 a {
-    color: #000;
+    color: darkred;
     text-decoration: none;
 }
 
 div.page-header h3 a {
-    color: #000;
+    color: aquamarine;
     text-decoration: none;
 }
 
