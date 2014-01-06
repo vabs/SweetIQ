@@ -23,6 +23,6 @@ class Listing(db.Model):
 
 class Reviews(db.Model):
     review_id = db.Column(db.String, primary_key=True)
-    listing_id = db.Column(db.String, db.ForeignKey('listing.listing_id'), index=True)
+    #listing_id = db.Column(db.Integer, db.ForeignKey('listing.listing_id'), index=True)
     location_id = db.Column(db.String, db.ForeignKey('location.location_id'), index=True)
     rating = db.Column(db.Integer)
