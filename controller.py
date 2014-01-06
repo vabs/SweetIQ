@@ -93,7 +93,7 @@ def get_data(token_id):
     print "Rating " , rating
 
     return render_template('listings.html', all_listing={ 'name': location_name, 
-        'listings':listings, rating: rating})
+        'listings':listings, 'rating': rating})
 
 
 
