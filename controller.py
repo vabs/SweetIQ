@@ -1,12 +1,13 @@
 import os
-from flask import Flask,render_template,session
+from flask import Flask,render_template,session,request
 import random
 import uuid
 import json
 import requests
 
-APP_URL = os.environ.get('URL', 'localhost')
+APP_URL = os.environ.get('URL', 'http://evening-escarpment-1123.herokuapp.com/')
 app = Flask(__name__)
+app.debug = True
 
 @app.route('/')
 def hello():
@@ -16,14 +17,19 @@ def hello():
 
 @app.route('/find', methods = ['GET', 'POST'])
 def find_location():
-
     params =  request.form
-    
-    session['id'] = uuid.uuid4().hex
-    session['name'] =  params.get('name')
-    session['address'] =  params.get('address')
-    session['phone'] =  params.get('phone')
+    #print params 
+    #session['id'] = uuid.uuid4().hex
+    #session['name'] =  params.get('name')
+    #session['address'] =  params.get('address')
+    #session['phone'] =  params.get('phone')
 
+    name = params.get('name')
+    address = params.get('address')
+    phone = params.get('phone')
+
+
+    print "Find Location"
    
     listing_callback_url =  APP_URL + 'listing_callback'
     review_callback_url =  APP_URL + 'review_callback'
@@ -39,10 +45,12 @@ def find_location():
         'completed_callback_url': completed_callback_url
 
     }
-    response = request.get(siq_url, params = req_params)
+
+    siq_url = 'https://app.ait.gmlapi.com:8080/advance-it'
+    response = requests.get(siq_url, params = req_params, verify=False)
     print "response from siq ", response
 
-    return response.text
+    return "Hello" 
 
 
 @app.route('/listing_callback', methods = ['GET', 'POST'])

@@ -34,7 +34,7 @@ $(function(){
 })
 
 function poller(sId){
-	isComplete(sID);
+	isComplete(sId);
 	while(isDone != 1){
 		setTimeout(isComplete(sId), 5000);
 	}
