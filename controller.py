@@ -74,6 +74,7 @@ def get_data(token_id):
 @app.route('/listing_callback', methods = ['GET', 'POST'])
 def listing_callback():
     print "listing callback"
+    print app.tokens
     print request.form
     return "OK"
 
@@ -81,12 +82,14 @@ def listing_callback():
 @app.route('/review_callback', methods = ['GET', 'POST'])
 def review_callback():
     print "review callback"
+    print app.tokens
     print request.form
     return "OK"
 
 @app.route('/completed_callback', methods = ['GET', 'POST'])
 def completed_callback():
     print "completed callback"
+    print app.tokens
     print request.form
     return "OK"
 
