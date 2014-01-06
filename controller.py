@@ -66,7 +66,7 @@ def is_complete(token_id):
     if token_id not in app.tokens:
         return "-1"
 
-    return app.tokens[token_id]
+    return str(app.tokens[token_id])
 
 
 @app.route('/getData/<token_id>')
