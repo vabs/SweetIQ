@@ -78,9 +78,16 @@ def is_complete(token_id):
 
 @app.route('/getData/<token_id>')
 def get_data(token_id):
-    return render_template('listings.html', {'all_listings' : { 'name': "Test", 
-                    'listings': []
+     
+    location_name = Location.query.get(token_id).location_name
+
+    listings = Listing.query.filter(Listing.location_id==token_id).all()
+
+    return render_template('listings.html', {'all_listings' : { 'name': location_name, 
+                    'listings':listings 
             }})
+
+
 
 
 @app.route('/error')
