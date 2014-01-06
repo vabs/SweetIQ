@@ -58,12 +58,12 @@ def find_location():
     return token_id
 
 
-@app.route('isComplete/<token_id>')
+@app.route('/isComplete/<token_id>')
 def is_complete(token_id):
     return app.tokens[token_id]
 
 
-@app.route('getData/<token_id>')
+@app.route('/getData/<token_id>')
 def get_data(token_id):
     return render_template('listings.html', {'all_listings' : { 'name': "Test", 
                     'listings': []
