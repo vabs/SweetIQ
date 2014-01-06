@@ -112,7 +112,7 @@ def review_callback():
     if review_resp:
         review_id = review_resp.get('review_id')
         rating = review_resp.get('rating')
-        review = Reviews(review_id=review_id, rating=rating, location_id=location_id)
+        review = Reviews(rating=rating, location_id=location_id)
         db.session.add(review)
         db.session.commit()
 
