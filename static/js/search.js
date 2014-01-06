@@ -46,8 +46,8 @@ function isComplete(sId){
 
 function poller(sId){
 	isComplete(sId);
-	while(parseInt(isDone) != 1 && parseInt(isDone) != -1){
-		setTimeout(function(){ isComplete(sId) }, 5000);
+	if(parseInt(isDone) != 1 && parseInt(isDone) != -1){
+		setTimeout(function(){ poller(sId) }, 5000);
 	}
 	if(parseInt(isDone) == -1 ){
 		$.get('/error');
