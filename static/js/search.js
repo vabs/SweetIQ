@@ -1,3 +1,4 @@
+var isDone = 0;
 $(function(){
 	$("#searchBtn").click(function(){
 		var nam = $("#location").val();
@@ -33,16 +34,8 @@ $(function(){
 
 })
 
-function poller(sId){
-	isComplete(sId);
-	while(parseInt(isDone) != 1){
-		setTimeout(isComplete(sId), 5000);
-	}
-	$.get('/getData', {sid: sId});
-}
-
 function isComplete(sId){
-	$.blockUI({ message: '<h1>Searching for places...</h1>' }); 
+	$.blockUI({ message: '<h1>Searching for places</h1>' }); 
 	$.ajax({
 			url: "/isComplete/" + sId,
 			success: function(res){
@@ -50,3 +43,18 @@ function isComplete(sId){
 			}
 		});
 }
+
+function poller(sId){
+	isComplete(sId);
+	while(parseInt(isDone) != 1 && parseInt(isDone) != -1){
+		setTimeout(isComplete(sId), 5000);
+	}
+	if(parseInt(isDone) == -1 ){
+		$.get('/error');
+	}
+	else{
+		$.get('/getData', {sid: sId});
+	}
+}
+
+
