@@ -164,6 +164,11 @@ div.page-header h1 a {
     text-decoration: none;
 }
 
+div.page-header h3 a {
+    color: #000;
+    text-decoration: none;
+}
+
 div.page-search-results{
     top: 40px;
     background-color: floralwhite;
