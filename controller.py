@@ -56,6 +56,11 @@ def find_location():
     response = requests.get(siq_url, params = req_params, verify=False)
     siq_response = json.loads(response.text)
     token_id = siq_response.get('token_id')
+
+    location = Location(location_id=token_id, location_name=name, address=address, tel=phone)
+    db.session.add(location)
+    db.session.commit()
+
     app.tokens[token_id] = 0
     return token_id
 
