@@ -36,8 +36,7 @@ def find_location():
         'location': '{"name": "%s", "address": "%s", "phone": "%s"}' % ( name, address, phone ),
         'listing_callback_url' : listing_callback_url,
         'review_callback_url' : review_callback_url,
-        'completed_callback_url': 
-
+        'completed_callback_url': completed_callback_url
 
     }
     response = request.get(siq_url, params = req_params)
