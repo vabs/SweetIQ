@@ -126,7 +126,7 @@ def completed_callback():
     print app.tokens
     print request.form
     token_id = request.form.get('token_id')
-    app[token_id] = 1
+    app.tokens[token_id] = 1
     return "OK"
 
 
