@@ -82,9 +82,16 @@ def get_data(token_id):
     location_name = Location.query.get(token_id).location_name
 
     listings = Listing.query.filter(Listing.location_id==token_id).all()
+    reviews = Reviews.query.filter(Listing.location_id==token_id).all()
+    
+    tot_rating = 0;
+    for rev in reviews:
+        avg_rating += rev.rating
+
+    rating =  float(tot_rating)/len(reviews)
 
     return render_template('listings.html', all_listing={ 'name': location_name, 
-                    'listings':listings })
+        'listings':listings, rating=rating)
 
 
 
