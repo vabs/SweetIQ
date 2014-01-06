@@ -87,7 +87,7 @@ def error():
 def listing_callback():
     print "listing callback"
     
-    listing_resp = request.form.get('listing')
+    listing_resp = json.loads(request.form.get('listing'))
     if listing_resp:
         name = listing_resp.get('name')
         domain = listing_resp.get('domain')
@@ -103,7 +103,7 @@ def listing_callback():
 def review_callback():
     print "review callback"
     location_id = request.form.get('token_id')
-    review_resp = reqpest.form.get('review')
+    review_resp = json.loads(request.form.get('review'))
     if review_resp:
         review_id = review_resp.get('review_id')
         rating = review_resp.get('rating')
