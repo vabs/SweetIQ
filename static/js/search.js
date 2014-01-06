@@ -49,14 +49,15 @@ function poller(sId){
 	if(parseInt(isDone) != 1 && parseInt(isDone) != -1){
                 console.log( "Is done : " + isDone);
 		setTimeout(function(){ poller(sId) }, 5000);
-	}
-	if(parseInt(isDone) == -1 ){
-		$.get('/error');
-	}
-	else{
-                console.log( "Is done : " + isDone);
-		window.location.href = '/getData/'+ sId;
-	}
+	} else {
+            if(parseInt(isDone) == -1 ){
+                    $.get('/error');
+            }
+            else{
+                    console.log( "Is done : " + isDone);
+                    window.location.href = '/getData/'+ sId;
+            }
+        }
 }
 
 
