@@ -80,6 +80,8 @@ def is_complete(token_id):
 def get_data(token_id):
      
     location_name = Location.query.get(token_id).location_name
+    address = Location.query.get(token_id).address
+    telephone = Location.query.get(token_id).tel
 
     listings = Listing.query.filter(Listing.location_id==token_id).all()
     reviews = Reviews.query.filter(Listing.location_id==token_id).all()
@@ -89,11 +91,11 @@ def get_data(token_id):
         tot_rating += rev.rating
 
     rating =  float(tot_rating)/len(reviews)
-
+    rating = "{0:.2f}".format(rating)
     print "Rating " , rating
 
     return render_template('listings.html', all_listing={ 'name': location_name, 
-        'listings':listings, 'rating': rating})
+        'listings':listings, 'rating': rating, 'address':address, 'tel':telephone})
 
 
 
