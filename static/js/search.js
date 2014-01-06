@@ -19,7 +19,8 @@ $(function(){
 			$("#address").css("border", "none");
 			$("#location").css("border", "none");
 			$("#phonenumber").css("border", "none");
-			$.ajax(function(){
+			$.ajax({
+				type: "POST",
 				url: '/find',
 				data: { name: nam, address: add, phone: phno },
 				success: function(sessionId){
