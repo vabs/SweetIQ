@@ -53,7 +53,7 @@ function poller(sId){
 		$.get('/error');
 	}
 	else{
-		$.get('/getData', {sid: sId});
+		window.location('/getData/'+ sId);
 	}
 }
 
