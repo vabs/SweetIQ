@@ -45,11 +45,6 @@ function isComplete(sId){
 	$.blockUI({ message: '<h1>Searching for places...</h1>' }); 
 	$.ajax({
 			url: "/isComplete/" + sId,
-			data: {
-				name: name,
-				address: add,
-				phone: phno
-			},
 			success: function(res){
 				isDone = res;
 			}
