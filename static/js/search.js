@@ -1,8 +1,8 @@
 $(function(){
 	$("#searchBtn").click(function(){
-		var nam = $("#location").val()
-		var phno = $("#phonenumber").val()
-		var add = $("#address").val()
+		var nam = $("#location").val();
+		var phno = $("#phonenumber").val();
+		var add = $("#address").val();
 		if(nam == ''){
 			$("#location").css("border", "2px solid red");
 		}
@@ -21,14 +21,13 @@ $(function(){
 			$("#phonenumber").css("border", "none");
 			$.ajax({
 				type: "POST",
-				url: '/find',
+				url: "/find",
 				data: { name: nam, address: add, phone: phno },
 				success: function(sessionId){
-					console.log(sessionId)
-					poller(sessionId)
+					console.log(sessionId);
+					poller(sessionId);
 				}
-			})
-
+			});
 		}
 	})
 
@@ -37,7 +36,7 @@ $(function(){
 function poller(sId){
 	isComplete(sID);
 	while(isDone != 1){
-		setTimeout(isComplete(sId), 5000)
+		setTimeout(isComplete(sId), 5000);
 	}
 	$.get('/getData'+ sId);
 }
@@ -51,7 +50,7 @@ function isComplete(sId){
 				phone: phno
 			},
 			success: function(res){
-				isDone = res
+				isDone = res;
 			}
-		})
+		});
 }
