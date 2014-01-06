@@ -5,7 +5,7 @@ import uuid
 import json
 import requests
 
-APP_URL = os.environ.get('URL', 'localhost')
+APP_URL = os.environ.get('URL', 'http://evening-escarpment-1123.herokuapp.com/')
 app = Flask(__name__)
 app.debug = True
 
