@@ -24,11 +24,7 @@ def hello():
 @app.route('/find', methods = ['GET', 'POST'])
 def find_location():
     params =  request.form
-    #print params 
-    #session['id'] = uuid.uuid4().hex
-    #session['name'] =  params.get('name')
-    #session['address'] =  params.get('address')
-    #session['phone'] =  params.get('phone')
+
 
     name = params.get('name')
     address = params.get('address')
@@ -60,16 +56,18 @@ def find_location():
     location = Location(location_id=token_id, location_name=name, address=address, tel=phone)
     db.session.add(location)
     db.session.commit()
-
+## we use the token id for knowing that the request is the one that we had, either 0 or 1
     app.tokens[token_id] = 0
     return token_id
 
 
 @app.route('/isComplete/<token_id>')
 def is_complete(token_id):
+##for logging
     print "IS complete"
     print app.tokens
     print token_id
+	
     if token_id not in app.tokens:
         return "-1"
     app.tokens[token_id] = 1

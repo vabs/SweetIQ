@@ -1,17 +1,17 @@
 var isDone = 0;
 $(function(){
 	$("#searchBtn").click(function(){
-		var nam = $("#location").val();
-		var phno = $("#phonenumber").val();
+		var name = $("#location").val();
+		var phone = $("#phonenumber").val();
 		var add = $("#address").val();
-		if(nam == ''){
+		if(name == ''){
 			$("#location").css("border", "2px solid red");
 		}
 		else if(add == ''){
 			$("#location").css("border", "none");
 			$("#address").css("border", "2px solid red");
 		}
-		else if(phno == ''){
+		else if(phone == ''){
 			$("#address").css("border", "none");
 			$("#location").css("border", "none");
 			$("#phonenumber").css("border", "2px solid red");
@@ -23,9 +23,10 @@ $(function(){
 			$.ajax({
 				type: "POST",
 				url: "/find",
-				data: { name: nam, address: add, phone: phno },
+				data: { name: name, address: add, phone: phone },
 				success: function(sessionId){
 					console.log(sessionId);
+					//calls & checks when the callbacks is complete
 					poller(sessionId);
 				}
 			});
@@ -46,6 +47,7 @@ function isComplete(sId){
 
 function poller(sId){
 	isComplete(sId);
+	//checks if its 0 
 	if(parseInt(isDone) != 1 && parseInt(isDone) != -1){
                 console.log( "Is done : " + isDone);
 		setTimeout(function(){ poller(sId) }, 40000);
