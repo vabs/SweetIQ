@@ -81,6 +81,9 @@ def get_data(token_id):
     address = Location.query.get(token_id).address
     telephone = Location.query.get(token_id).tel
 
+    print '--------------- THIS IS A TEST ----------'
+    print location_name, address, telephone
+
     listings = Listing.query.filter(Listing.location_id==token_id).all()
     reviews = Reviews.query.filter(Listing.location_id==token_id).all()
     
