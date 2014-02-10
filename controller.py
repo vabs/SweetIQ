@@ -53,6 +53,9 @@ def find_location():
     siq_response = json.loads(response.text)
     token_id = siq_response.get('token_id')
 
+    location_name = unicode(location_name)
+    address = unicode(address)
+
     location = Location(location_id=token_id, location_name=name, address=address, tel=phone)
     db.session.add(location)
     db.session.commit()
@@ -82,7 +85,7 @@ def get_data(token_id):
     telephone = Location.query.get(token_id).tel
 
     print '--------------- THIS IS A TEST -------------'
-    print location_name, address, telephone
+#    print location_name, address, telephone
 
     listings = Listing.query.filter(Listing.location_id==token_id).all()
     reviews = Reviews.query.filter(Listing.location_id==token_id).all()
