@@ -53,7 +53,7 @@ def find_location():
     siq_response = json.loads(response.text)
     token_id = siq_response.get('token_id')
 
-    location_name = unicode(location_name)
+    name = unicode(name)
     address = unicode(address)
 
     location = Location(location_id=token_id, location_name=name, address=address, tel=phone)
