@@ -59,7 +59,12 @@ def find_location():
 
     location = Location(location_id=token_id, location_name=name, address=address, tel=phone)
     db.session.add(location)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
+    finally:
+        db.session.close()
 ## we use the token id for knowing that the request is the one that we had, either 0 or 1
     app.tokens[token_id] = 0
     return token_id
@@ -136,7 +141,12 @@ def review_callback():
         rating = review_resp.get('rating')
         review = Reviews(rating=rating, location_id=location_id)
         db.session.add(review)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
 
     print app.tokens
     print request.form
