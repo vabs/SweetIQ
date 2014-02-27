@@ -1,7 +1,10 @@
 
+
+
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>SweetIQ 2DB</title>
     <meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/siq2db.css" />
 </head>
-<body>
+<body onLoad='GetValues();'>
     <div id="wrap">
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
@@ -24,11 +27,16 @@
             <div class="index">
                 <div class="page-search">
                     <h1>Discover Locations</h1>
-                    <div>
-                        <input type="text" id="location" placeholder="Location Name" class="pb_payload">
-                        <input type="text" id="address" placeholder="Location Address" class="pb_payload">
-                        <input type="text" id="phonenumber" placeholder="Location Phone Number" class="pb_payload">
+              	      <div>
+              	      	<form name=f1>
+
+						<input type="text" name="location" id="location" placeholder="Location Name" class="pb_payload" value="">
+						<input type="text" name="address" id="address" placeholder="Location Address" class="pb_payload" value="">
+                        <input type="text" name="phonenumber" id="phonenumber" placeholder="Location Phone Number" class="pb_payload" value="">
+						</form>
+
                         <button id="searchBtn" type="button" class="btn btn-success">Search!</button>
+
                     </div>
                 </div>
             </div>
@@ -38,5 +46,38 @@
     <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../static/js/search.js"></script>
     <script type="text/javascript" src="../static/js/blockUI.js"></script>
+    <script language="javascript">
+	<!--
+	function GetValues()
+	{
+	var URL = String(window.location.href + "&x=x?x=x");
+	var args = String(URL.split("?")[1]); /* all of the arguments */
+	var pairs = args.split("&"); /* the name=value pairs */
+	var i;
+	var pair;
+	var name;
+	var value;
+	var f = document.f1;
+	for (i = 0; i < pairs.length; i++)
+	{
+	pair = pairs[i].split("=");
+	name = pair[0];
+	value = pair[1];
+		if (name == "location")
+		{
+			f.location.value = value;
+		}
+		if (name == "address")
+		{
+			f.address.value = value;
+		}
+		if (name == "phonenumber")
+		{
+			f.phonenumber.value = value;
+		}
+	}
+	}
+	-->
+</script>
 </body>
 </html>
