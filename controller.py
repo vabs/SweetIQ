@@ -127,7 +127,7 @@ def review_callback():
 		review_id = review_resp.get('review_id')
 		rating = review_resp.get('rating')
 		comment = review_resp.get('excerpt')
-		review = Reviews(rating = rating, location_id = location_id, comment = comment)
+		review = Reviews(rating = rating, location_id = location_id, comments = comment)
 		db.session.add(review)
 		try:
 			db.session.commit()
