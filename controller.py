@@ -127,7 +127,7 @@ def review_callback():
 		review_id = review_resp.get('review_id')
 		rating = review_resp.get('rating')
 		comment = review_resp.get('excerpt')
-		review = Reviews(rating = rating, location_id = location_id, comments = comment)
+		review = Reviews(rating = rating, location_id = location_id, comment = comment)
 		db.session.add(review)
 		try:
 			db.session.commit()
@@ -163,7 +163,11 @@ def find_account(account_id):
 
 	listings = Listing.query.filter(Listing.location_id == location_id).all()
 	reviews = Reviews.query.filter(Listing.location_id == location_id).all()
-	response['listings']  = listings
+	
+	print "Listings found: ", listings
+	print "reviews found: ", reviews
+	
+	response['listings'] = listings
 	response['reviews'] = reviews
 
 	return jsonify(**response)
