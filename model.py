@@ -27,3 +27,4 @@ class Reviews(db.Model):
     #listing_id = db.Column(db.Integer, db.ForeignKey('listing.listing_id'), index=True)
     location_id = db.Column(db.String, db.ForeignKey('location.location_id'), index=True)
     rating = db.Column(db.Integer)
+	comments = db.Column(db.String(500))

@@ -1,10 +1,10 @@
 import os
-from flask import Flask,render_template,session,request
+from flask import Flask,render_template,session,request, jsonify
 import random
 import uuid
 import json
 import requests
-from model  import db,Listing,Reviews,Location
+from model import db,Listing,Reviews,Location
 
 
 APP_URL = os.environ.get('URL', 'http://evening-escarpment-1123.herokuapp.com/')
@@ -24,8 +24,8 @@ def hello():
 @app.route('/find', methods = ['GET', 'POST'])
 def find_location():
     params =  request.form
-
-
+	
+	account = params.get('accountid')
     name = params.get('name')
     address = params.get('address')
     phone = params.get('phone')
@@ -57,7 +57,7 @@ def find_location():
     name = unicode(name)
     address = unicode(address)
 
-    location = Location(location_id=token_id, location_name=name, address=address, tel=phone)
+    location = Location(location_id = token_id, account_id = account, location_name = name, address = address, tel = phone)
     db.session.add(location)
     db.session.commit()
 ## we use the token id for knowing that the request is the one that we had, either 0 or 1
@@ -133,7 +133,8 @@ def review_callback():
     if review_resp:
         review_id = review_resp.get('review_id')
         rating = review_resp.get('rating')
-        review = Reviews(rating=rating, location_id=location_id)
+		comment = review_resp.get('excerpt')
+        review = Reviews(rating = rating, location_id = location_id, comment = comment)
         db.session.add(review)
         db.session.commit()
 
@@ -151,3 +152,21 @@ def completed_callback():
     return "OK"
 
 
+@app.route('/find_account/<account_id>')
+def find_account(account_id):
+	print "finding account"
+	response = {}
+	
+	locations = Location.query.filter(Location.account_id == account_id).all()
+	print "From finding location"
+	location_id = ''
+	for location in locations:
+		location_id = location.location_id
+	
+	
+	listings = Listing.query.filter(Listing.location_id == location_id).all()
+	reviews = Reviews.query.filter(Listing.location_id == location_id).all()
+	response['listings']  = listings
+	response['reviews'] = reviews
+
+	return jsonify(**response)
