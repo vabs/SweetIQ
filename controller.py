@@ -60,7 +60,7 @@ def find_location():
 		db.session.close()
 	## we use the token id for knowing that the request is the one that we had, either 0 or 1
 	app.tokens[token_id] = 0
-    return token_id
+	return token_id
 
 
 @app.route('/isComplete/<token_id>')
