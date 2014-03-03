@@ -155,11 +155,11 @@ def find_account(account_id):
 	print "finding account"
 	response = {}
 
-	locations = Location.query.filter(Location.account_id == account_id).all()
+	ls = Location.query.filter(Location.account_id == account_id).all()
 	print "From finding location"
 	location_id = ''
-	for location in locations:
-		location_id = location.location_id
+	for l in ls:
+		location_id = l.location_id
 
 	listings = Listing.query.filter(Listing.location_id == location_id).all()
 	reviews = Reviews.query.filter(Listing.location_id == location_id).all()
