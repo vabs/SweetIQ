@@ -18,15 +18,11 @@ def hello():
     return render_template('home.html')
 
 
-
-
-
 @app.route('/find', methods = ['GET', 'POST'])
 def find_location():
     params =  request.form
-	
 	account = params.get('accountid')
-    name = params.get('name')
+	name = params.get('name')
     address = params.get('address')
     phone = params.get('phone')
 
@@ -59,8 +55,13 @@ def find_location():
 
     location = Location(location_id = token_id, account_id = account, location_name = name, address = address, tel = phone)
     db.session.add(location)
-    db.session.commit()
-## we use the token id for knowing that the request is the one that we had, either 0 or 1
+	try:
+        db.session.commit()
+    except:
+        db.session.rollback()
+    finally:
+        db.session.close()
+	## we use the token id for knowing that the request is the one that we had, either 0 or 1
     app.tokens[token_id] = 0
     return token_id
 
@@ -84,8 +85,6 @@ def get_data(token_id):
     location_name = Location.query.get(token_id).location_name
     address = Location.query.get(token_id).address
     telephone = Location.query.get(token_id).tel
-
-#    print location_name, address, telephone
 
     listings = Listing.query.filter(Listing.location_id==token_id).all()
     reviews = Reviews.query.filter(Listing.location_id==token_id).all()
@@ -136,7 +135,12 @@ def review_callback():
 		comment = review_resp.get('excerpt')
         review = Reviews(rating = rating, location_id = location_id, comment = comment)
         db.session.add(review)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
 
     print app.tokens
     print request.form

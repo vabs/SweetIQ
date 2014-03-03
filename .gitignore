@@ -1,4 +1,5 @@
 venv
+<<<<<<< HEAD
 .idea/
 .idea
 *.pyc
@@ -53,3 +54,6 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+=======
+*.pyc
+>>>>>>> b4fbd24f942616eb2a6d0741ed60e01fa11a9655
