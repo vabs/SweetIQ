@@ -167,7 +167,23 @@ def find_account(account_id):
 	print "Listings found: ", listings
 	print "reviews found: ", reviews
 	
-	response['listings'] = listings
-	response['reviews'] = reviews
+	l_data = []
+	r_data = []
+	temp = {}
+	
+	for listing in listings:
+		temp['name'] = listing['name']
+		temp['domain'] = listing['domain']
+		l_data.append(temp)
+		temp = {}
+	
+	for review in reviews:
+		temp['rating'] = review['rating']
+		temp['comment'] = review['comment']
+		r_data.append(temp)
+		temp = {}
+	
+	response['listings'] = l_data
+	response['reviews'] = r_data
 
 	return jsonify(**response)
