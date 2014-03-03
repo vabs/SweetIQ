@@ -172,14 +172,14 @@ def find_account(account_id):
 	temp = {}
 	
 	for listing in listings:
-		temp['name'] = listing['name']
-		temp['domain'] = listing['domain']
+		temp['name'] = listing.name
+		temp['domain'] = listing.domain
 		l_data.append(temp)
 		temp = {}
 	
 	for review in reviews:
-		temp['rating'] = review['rating']
-		temp['comment'] = review['comment']
+		temp['rating'] = review.rating
+		temp['comment'] = review.comment
 		r_data.append(temp)
 		temp = {}
 	
@@ -187,3 +187,4 @@ def find_account(account_id):
 	response['reviews'] = r_data
 
 	return jsonify(**response)
+	
