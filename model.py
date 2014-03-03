@@ -6,25 +6,25 @@ app = Flask(__name__)
 db = SQLAlchemy(app)
 
 class Location(db.Model):
-    location_id = db.Column(db.String(100), primary_key=True)
-    account_id = db.Column(db.String(100))
-    location_name = db.Column(db.String(200))
-    address = db.Column(db.String(200))
-    tel = db.Column(db.String(200))
+	location_id = db.Column(db.String(100), primary_key=True)
+	account_id = db.Column(db.String(100))
+	location_name = db.Column(db.String(200))
+	address = db.Column(db.String(200))
+	tel = db.Column(db.String(200))
 
 
 class Listing(db.Model):
-    listing_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    location_id = db.Column(db.String, db.ForeignKey('location.location_id'), index=True)
-    domain = db.Column(db.String(150))
-    name = db.Column(db.String(150))
+	listing_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	location_id = db.Column(db.String, db.ForeignKey('location.location_id'), index=True)
+	domain = db.Column(db.String(150))
+	name = db.Column(db.String(150))
 
 
 class Reviews(db.Model):
-    review_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	review_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     #review_id = db.Column(db.String, primary_key=True)
     #listing_id = db.Column(db.Integer, db.ForeignKey('listing.listing_id'), index=True)
-    location_id = db.Column(db.String, db.ForeignKey('location.location_id'), index=True)
-    rating = db.Column(db.Integer)
+	location_id = db.Column(db.String, db.ForeignKey('location.location_id'), index=True)
+	rating = db.Column(db.Integer)
 	comments = db.Column(db.String(500))
 
