@@ -50,7 +50,7 @@ def find_location():
 	name = unicode(name)
 	address = unicode(address)
 
-	location = Location(location_id = token_id, account_id = account, location_name = name, address = address, tel = phone)
+	location = Location(location_id = token_id, account_id = account, location_name = name, address = address, tel = phone,industry=industry)
 	db.session.add(location)
 	try:
 		db.session.commit()
@@ -110,8 +110,9 @@ def listing_callback():
 	if listing_resp:
 		name = listing_resp.get('name')
 		domain = listing_resp.get('domain')
+		link = listing_resp.get('link')
 		location_id = request.form.get('token_id')
-		listing = Listing(location_id = location_id, name=name, domain=domain)
+		listing = Listing(location_id = location_id, name=name, domain=domain,link=link)
 		db.session.add(listing)
 		db.session.commit()
 
@@ -127,7 +128,9 @@ def review_callback():
 		review_id = review_resp.get('review_id')
 		rating = review_resp.get('rating')
 		comment = review_resp.get('excerpt')
-		review = Reviews(rating = rating, location_id = location_id, comment = comment)
+		accuracy = review_resp.get('accuracy')
+		
+		review = Reviews(rating = rating, location_id = location_id, comment = comment, accuracy = accuracy, link = link)
 		db.session.add(review)
 		try:
 			db.session.commit()
@@ -165,7 +168,7 @@ def find_account(account_id):
 	reviews = Reviews.query.filter(Listing.location_id == location_id).all()
 	
 	print "Listings found: ", listings
-	print "reviews found: ", reviews
+	print "Reviews found: ", reviews
 	
 	l_data = []
 	r_data = []
@@ -174,12 +177,14 @@ def find_account(account_id):
 	for listing in listings:
 		temp['name'] = listing.name
 		temp['domain'] = listing.domain
+		temp['link'] = listing.link
 		l_data.append(temp)
 		temp = {}
 	
 	for review in reviews:
 		temp['rating'] = review.rating
 		temp['comment'] = review.comment
+		temp['accuracy'] = review.accuracy
 		r_data.append(temp)
 		temp = {}
 	
