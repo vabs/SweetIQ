@@ -184,9 +184,11 @@ def find_account(account_id):
 	temp = {}
 	
 	for listing in listings:
-		temp['name'] = listing.name
-		temp['domain'] = listing.domain
-
+		if listing.name is None or listing.name is '':
+			pass
+		else:		
+			temp['name'] = listing.name
+			temp['domain'] = listing.domain
 
 		l_data.append(temp)
 		temp = {}
