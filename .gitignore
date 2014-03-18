@@ -1,5 +1,8 @@
 venv
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d808cacf7e49434651a53209bbc7bb604f2fe9d2
 .idea/
 .idea
 *.pyc
@@ -36,6 +39,33 @@ pip-delete-this-directory.txt
 .cache
 nosetests.xml
 coverage.xml
+<<<<<<< HEAD
+=======
+=======
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+__pycache__
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+>>>>>>> d808cacf7e49434651a53209bbc7bb604f2fe9d2
 
 # Translations
 *.mo
@@ -54,6 +84,10 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+<<<<<<< HEAD
 =======
 *.pyc
 >>>>>>> b4fbd24f942616eb2a6d0741ed60e01fa11a9655
+=======
+*.pyc
+>>>>>>> d808cacf7e49434651a53209bbc7bb604f2fe9d2

@@ -50,7 +50,11 @@ def find_location():
 	name = unicode(name)
 	address = unicode(address)
 
+<<<<<<< HEAD
 	location = Location(location_id = token_id, account_id = account, location_name = name, address = address, tel = phone,industry=industry)
+=======
+	location = Location(location_id = token_id, account_id = account, location_name = name, address = address, tel = phone)
+>>>>>>> d808cacf7e49434651a53209bbc7bb604f2fe9d2
 	db.session.add(location)
 	try:
 		db.session.commit()
@@ -110,9 +114,14 @@ def listing_callback():
 	if listing_resp:
 		name = listing_resp.get('name')
 		domain = listing_resp.get('domain')
+<<<<<<< HEAD
 		link = listing_resp.get('link')
 		location_id = request.form.get('token_id')
 		listing = Listing(location_id = location_id, name=name, domain=domain,link=link)
+=======
+		location_id = request.form.get('token_id')
+		listing = Listing(location_id = location_id, name=name, domain=domain)
+>>>>>>> d808cacf7e49434651a53209bbc7bb604f2fe9d2
 		db.session.add(listing)
 		db.session.commit()
 
@@ -128,9 +137,13 @@ def review_callback():
 		review_id = review_resp.get('review_id')
 		rating = review_resp.get('rating')
 		comment = review_resp.get('excerpt')
+<<<<<<< HEAD
 		accuracy = review_resp.get('accuracy')
 		
 		review = Reviews(rating = rating, location_id = location_id, comment = comment, accuracy = accuracy, link = link)
+=======
+		review = Reviews(rating = rating, location_id = location_id, comment = comment)
+>>>>>>> d808cacf7e49434651a53209bbc7bb604f2fe9d2
 		db.session.add(review)
 		try:
 			db.session.commit()
@@ -168,7 +181,11 @@ def find_account(account_id):
 	reviews = Reviews.query.filter(Listing.location_id == location_id).all()
 	
 	print "Listings found: ", listings
+<<<<<<< HEAD
 	print "Reviews found: ", reviews
+=======
+	print "reviews found: ", reviews
+>>>>>>> d808cacf7e49434651a53209bbc7bb604f2fe9d2
 	
 	l_data = []
 	r_data = []
@@ -177,14 +194,20 @@ def find_account(account_id):
 	for listing in listings:
 		temp['name'] = listing.name
 		temp['domain'] = listing.domain
+<<<<<<< HEAD
 		temp['link'] = listing.link
+=======
+>>>>>>> d808cacf7e49434651a53209bbc7bb604f2fe9d2
 		l_data.append(temp)
 		temp = {}
 	
 	for review in reviews:
 		temp['rating'] = review.rating
 		temp['comment'] = review.comment
+<<<<<<< HEAD
 		temp['accuracy'] = review.accuracy
+=======
+>>>>>>> d808cacf7e49434651a53209bbc7bb604f2fe9d2
 		r_data.append(temp)
 		temp = {}
 	
