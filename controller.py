@@ -168,7 +168,7 @@ def find_account(account_id):
 		location_id = l.location_id
 
 	listings = Listing.query.filter(Listing.location_id == location_id).all()
-	reviews = Reviews.query.filter(Listing.location_id == location_id).all()
+	reviews = Reviews.query.filter(Reviews.location_id == location_id).all()
 	
 	print "Listings found: ", listings
 
