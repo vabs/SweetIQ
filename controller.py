@@ -33,8 +33,8 @@ def find_location():
 	review_callback_url =  APP_URL + 'review_callback'
 	completed_callback_url =  APP_URL + 'completed_callback'
 
-	print "Listing callback " , listing_callback_url
-	print "Review callback " , review_callback_url
+	#print "Listing callback " , listing_callback_url
+	#print "Review callback " , review_callback_url
 
 	req_params = { 
 		'location': '{"name": "%s", "address": "%s", "phone": "%s"}' % ( name, address, phone ),
@@ -48,7 +48,7 @@ def find_location():
 	siq_response = json.loads(response.text)
 	token_id = siq_response.get('token_id')
 
-	print "TOKEN ID:  ", token_id
+	#print "TOKEN ID:  ", token_id
 	name = unicode(name)
 	address = unicode(address)
 
@@ -71,8 +71,8 @@ def find_location():
 def is_complete(token_id):
 	##for logging
 	print "IS complete"
-	print app.tokens
-	print token_id
+	#print app.tokens
+	#print token_id
 
 	if token_id not in app.tokens:
 		return "-1"
@@ -146,15 +146,15 @@ def review_callback():
 		finally:
 			db.session.close()
 
-	print app.tokens
-	print request.form
+	#print app.tokens
+	#print request.form
 	return "OK"
 
 @app.route('/completed_callback', methods = ['GET', 'POST'])
 def completed_callback():
 	print "completed callback"
-	print app.tokens
-	print request.form
+	#print app.tokens
+	#print request.form
 	token_id = request.form.get('token_id')
 	app.tokens[token_id] = 1
 	return "OK"
@@ -162,7 +162,7 @@ def completed_callback():
 
 @app.route('/find_account/<account_id>')
 def find_account(account_id):
-	print "finding account"
+	#print "finding account"
 	response = {}
 
 	ls = Location.query.filter(Location.account_id == account_id).all()
@@ -174,9 +174,9 @@ def find_account(account_id):
 	listings = Listing.query.filter(Listing.location_id == location_id).all()
 	reviews = Reviews.query.filter(Reviews.location_id == location_id).all()
 	
-	print "Listings found: ", listings
+	#print "Listings found: ", listings
 
-	print "Reviews found: ", reviews
+	#print "Reviews found: ", reviews
 
 	
 	l_data = []
