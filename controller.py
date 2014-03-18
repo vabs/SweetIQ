@@ -25,6 +25,8 @@ def find_location():
 	name = params.get('name')
 	address = params.get('address')
 	phone = params.get('phone')
+	industry = params.get('industry')
+	
 	print "Find Location"
 	
 	listing_callback_url =  APP_URL + 'listing_callback'
@@ -51,7 +53,7 @@ def find_location():
 	address = unicode(address)
 
 
-	location = Location(location_id = token_id, account_id = account, location_name = name, address = address, tel = phone)
+	location = Location(location_id = token_id, account_id = account, location_name = name, address = address, tel = phone, industry = industry)
 
 	db.session.add(location)
 	try:
@@ -112,7 +114,9 @@ def listing_callback():
 	if listing_resp:
 		name = listing_resp.get('name')
 		domain = listing_resp.get('domain')
-
+		link = listing_resp.get('link')
+		accuracy = listing_resp.get('accuracy')
+		
 		location_id = request.form.get('token_id')
 		listing = Listing(location_id = location_id, name=name, domain=domain)
 
@@ -131,7 +135,7 @@ def review_callback():
 		review_id = review_resp.get('review_id')
 		rating = review_resp.get('rating')
 		comment = review_resp.get('excerpt')
-
+		
 		review = Reviews(rating = rating, location_id = location_id, comment = comment)
 
 		db.session.add(review)
