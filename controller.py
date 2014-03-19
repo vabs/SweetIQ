@@ -51,6 +51,7 @@ def find_location():
 	#print "TOKEN ID:  ", token_id
 	name = unicode(name)
 	address = unicode(address)
+	industry = unicode(industry)
 
 
 	location = Location(location_id = token_id, account_id = account, location_name = name, address = address, tel = phone, industry = industry)
@@ -118,7 +119,7 @@ def listing_callback():
 		accuracy = listing_resp.get('accuracy')
 		
 		location_id = request.form.get('token_id')
-		listing = Listing(location_id = location_id, name=name, domain=domain)
+		listing = Listing(location_id = location_id, name=name, domain=domain, link=link, accuracy=accuracy)
 
 		db.session.add(listing)
 		db.session.commit()
@@ -189,6 +190,8 @@ def find_account(account_id):
 		else:		
 			temp['name'] = listing.name
 			temp['domain'] = listing.domain
+			temp['link'] = review.link
+			temp['accuracy'] = review.accuracy
 
 		l_data.append(temp)
 		temp = {}
@@ -196,6 +199,7 @@ def find_account(account_id):
 	for review in reviews:
 		temp['rating'] = review.rating
 		temp['comment'] = review.comment
+		
 
 		r_data.append(temp)
 		temp = {}
