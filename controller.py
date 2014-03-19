@@ -190,8 +190,8 @@ def find_account(account_id):
 		else:		
 			temp['name'] = listing.name
 			temp['domain'] = listing.domain
-			temp['link'] = review.link
-			temp['accuracy'] = review.accuracy
+			temp['link'] = listing.link
+			temp['accuracy'] = listing.accuracy
 
 		l_data.append(temp)
 		temp = {}
