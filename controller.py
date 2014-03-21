@@ -185,7 +185,7 @@ def find_account(account_id):
 	temp = {}
 	
 	for listing in listings:
-		if listing.name is None or listing.name is '':
+		if listing.name is None or listing.name is '' or listing.accuracy < 0.75:
 			pass
 		else:		
 			temp['name'] = listing.name
