@@ -197,7 +197,7 @@ def find_account(account_id):
 		temp = {}
 	
 	for review in reviews:
-		if listing.name is None or listing.name is '' or listing.accuracy < '0.31':
+		
 		temp['rating'] = review.rating
 		temp['comment'] = review.comment
 		
