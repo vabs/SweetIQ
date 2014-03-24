@@ -21,7 +21,7 @@ class Listing(db.Model):
 	domain = db.Column(db.String(150))
 	name = db.Column(db.String(150))
 	link = db.Column(db.String(500))
-	accuracy = db.Column(db.String(500))
+	accuracy = db.Column(db.Float)
     
 
 class Reviews(db.Model):
