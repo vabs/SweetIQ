@@ -136,8 +136,8 @@ def review_callback():
 		review_id = review_resp.get('review_id')
 		rating = review_resp.get('rating')
 		comment = review_resp.get('excerpt')
-		
-		review = Reviews(rating = rating, location_id = location_id, comment = comment)
+		reviewdate=review_resp.get('date')
+		review = Reviews(rating = rating, location_id = location_id, comment = comment,reviewdate=reviewdate)
 
 		db.session.add(review)
 		try:
@@ -200,6 +200,7 @@ def find_account(account_id):
 		
 		temp['rating'] = review.rating
 		temp['comment'] = review.comment
+		temp['reviewdate'] = review.reviewdate
 		
 
 		r_data.append(temp)
