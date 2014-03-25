@@ -137,7 +137,7 @@ def review_callback():
 		rating = review_resp.get('rating')
 		comment = review_resp.get('excerpt')
 		reviewdate=review_resp.get('date')
-		review = Reviews(rating = rating, location_id = location_id, comment = comment,reviewdate=reviewdate)
+		review = Reviews(rating = rating, location_id = location_id, comment = comment,reviewdate = reviewdate)
 
 		db.session.add(review)
 		try:
