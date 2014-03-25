@@ -4,6 +4,8 @@ import random
 import uuid
 import json
 import requests
+import datetime
+
 from model import db,Listing,Reviews,Location
 
 
@@ -200,7 +202,9 @@ def find_account(account_id):
 		
 		temp['rating'] = review.rating
 		temp['comment'] = review.comment
-		temp['reviewdate'] = review.reviewdate
+		
+		r_date = review.reviewdate
+		temp['reviewdate'] = r_date.strftime('%d/%m/%Y')
 		
 
 		r_data.append(temp)
