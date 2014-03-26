@@ -199,9 +199,9 @@ def find_account(account_id):
 	temp = {}
 	
 	for listing in listings:
-		if listing.name is None or listing.name is ''  :
-			pass
-		else:		
+		#if listing.name is None or listing.name is ''  :
+			#pass
+		#else:		
 			temp['name'] = listing.name
 			temp['domain'] = listing.domain
 			temp['link'] = listing.link
