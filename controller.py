@@ -44,6 +44,14 @@ def find_location():
 		'review_callback_url' : review_callback_url,
 		'completed_callback_url': completed_callback_url
 	}
+	
+	#req_params = {
+	#	'api_key' : '@@@@@@@@@@@@@@@@@@@@@',	
+	#	'location': '{"name": "%s", "address": "%s", "phone": "%s"}' % ( name, address, phone ),
+	#	'listing_callback_url' : listing_callback_url,
+	#	'review_callback_url' : review_callback_url,
+	#	'completed_callback_url': completed_callback_url
+	#}
 
 	siq_url = 'https://app.ait.gmlapi.com:8080/advance-it'
 	response = requests.get(siq_url, params = req_params, verify=False)
@@ -57,7 +65,9 @@ def find_location():
 
 
 	location = Location(location_id = token_id, account_id = account, location_name = name, address = address, tel = phone, industry = industry)
-
+	
+	#TO-DO: check for duplication account_id in the location table before adding! Remove data from Listing and Review using location_id as the key!
+	
 	db.session.add(location)
 	try:
 		db.session.commit()
@@ -113,12 +123,13 @@ def error():
 def listing_callback():
 	print "listing callback"
 
+	#listing_hash = request.form.get('unique_hash')
 	listing_resp = json.loads(request.form.get('listing'))
 	if listing_resp:
 		name = listing_resp.get('name')
 		domain = listing_resp.get('domain')
 		link = listing_resp.get('link')
-		accuracy = listing_resp.get('accuracy')
+		accuracy = "{0:.2f}".format(listing_resp.get('accuracy'))
 		
 		location_id = request.form.get('token_id')
 		listing = Listing(location_id = location_id, name=name, domain=domain, link=link, accuracy=accuracy)
@@ -133,13 +144,14 @@ def listing_callback():
 def review_callback():
 	print "review callback"
 	location_id = request.form.get('token_id')
+	#review_hash = request.form.get('unique_hash')
 	review_resp = json.loads(request.form.get('review'))
 	if review_resp:
 		review_id = review_resp.get('review_id')
 		rating = review_resp.get('rating')
 		comment = review_resp.get('excerpt')
-		reviewdate=review_resp.get('date')
-		review = Reviews(rating = rating, location_id = location_id, comment = comment,reviewdate = reviewdate)
+		reviewdate = review_resp.get('date')
+		review = Reviews(rating = rating, location_id = location_id, comment = comment, reviewdate = reviewdate)
 
 		db.session.add(review)
 		try:
@@ -201,12 +213,9 @@ def find_account(account_id):
 	for review in reviews:
 		
 		temp['rating'] = review.rating
-		temp['comment'] = review.comment
-		
+		temp['comment'] = review.comment		
 		r_date = review.reviewdate
 		temp['reviewdate'] = r_date.strftime('%d/%m/%Y')
-		
-
 		r_data.append(temp)
 		temp = {}
 	

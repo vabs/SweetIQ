@@ -29,6 +29,6 @@ class Reviews(db.Model):
   	location_id = db.Column(db.String, db.ForeignKey('location.location_id'), index=True)
 	rating = db.Column(db.Integer)
 	comment = db.Column(db.String(500))
-	reviewdate=db.Column(db.Date)
+	reviewdate = db.Column(db.Date)
 	#review_id = db.Column(db.String, primary_key=True)
     #listing_id = db.Column(db.Integer, db.ForeignKey('listing.listing_id'), index=True)
