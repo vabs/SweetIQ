@@ -202,10 +202,10 @@ def find_account(account_id):
 		#if listing.name is None or listing.name is ''  :
 			#pass
 		#else:		
-			temp['name'] = listing.name
-			temp['domain'] = listing.domain
-			temp['link'] = listing.link
-			temp['accuracy'] = listing.accuracy
+		temp['name'] = listing.name
+		temp['domain'] = listing.domain
+		temp['link'] = listing.link
+		temp['accuracy'] = listing.accuracy
 
 		l_data.append(temp)
 		temp = {}
