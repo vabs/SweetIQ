@@ -10,6 +10,7 @@ import time
 from model import db,Listing,Reviews,Location
 
 
+
 APP_URL = os.environ.get('URL', 'http://evening-escarpment-1123.herokuapp.com/')
 app = Flask(__name__)
 app.debug = True
@@ -186,7 +187,10 @@ def find_account(account_id):
 	location_id = ''
 	for l in ls:
 		location_id = l.location_id
-
+		
+	charts=session.query("count", "average_rating", "month", "unixdate").\
+        from_statement("select count(*), avg(rating) as average_rating, date_trunc('month', reviewdate) as month, extract(epoch from date_trunc('month', reviewdate)) * 1000 as unix  from reviews where location_id = :location_id group by month order by month").
+        params(location_id=location_id).all()
 	listings = Listing.query.filter(Listing.location_id == location_id).all()
 	reviews = Reviews.query.filter(Reviews.location_id == location_id).all()
 	
@@ -220,12 +224,18 @@ def find_account(account_id):
 		
 		#temp['unixdate'] =time.mktime(r_date.timetuple()) + r_date.microsecond * 1e-6
 		temp['unixdate'] =time.mktime(r_date.timetuple())*10000
+		
+		
+		#select count(*), date_trunc('month', reviewdate) as month, extract(epoch from date_trunc('month', reviewdate)) * 1000 as unix  from reviews group by month order by month
+		
+
 				
 		r_data.append(temp)
 		temp = {}
 	
 	response['listings'] = l_data
 	response['reviews'] = r_data
+	response['charts']=charts
 
 	return jsonify(**response)
 	
