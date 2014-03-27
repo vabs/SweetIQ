@@ -7,6 +7,8 @@ import requests
 import datetime
 import time
 
+from pprint import pprint
+
 from model import db,Listing,Reviews,Location
 
 
@@ -201,6 +203,8 @@ def find_account(account_id):
 	r_data = []
 	chart_data = []
 	temp = {}
+	
+	pprint(charts)
 	
 	for chart in charts:
 		c = {
