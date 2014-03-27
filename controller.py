@@ -5,6 +5,7 @@ import uuid
 import json
 import requests
 import datetime
+import time
 
 from model import db,Listing,Reviews,Location
 
@@ -216,6 +217,8 @@ def find_account(account_id):
 		temp['comment'] = review.comment		
 		r_date = review.reviewdate
 		temp['reviewdate'] = r_date.strftime('%d/%m/%Y')
+		
+		temp['dateunix'] =time.mktime(r_date.timetuple()) + r_date.microsecond * 1e-6
 		r_data.append(temp)
 		temp = {}
 	
