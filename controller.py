@@ -199,7 +199,17 @@ def find_account(account_id):
 	
 	l_data = []
 	r_data = []
+	chart_data = []
 	temp = {}
+	
+	for chart in charts:
+		c = {
+			'count': int(chart['count']),
+			'average_rating': float(chart['average_rating']),
+			'month': str(chart['month']),
+			'unixdate': int(chart['unixdate'])
+		}
+		chart_data.append(c)
 	
 	for listing in listings:
 		#if listing.name is None or listing.name is ''  :
@@ -233,7 +243,7 @@ def find_account(account_id):
 	
 	response['listings'] = l_data
 	response['reviews'] = r_data
-	response['charts']=charts
+	response['charts']=chart_data
 
 	return jsonify(**response)
 	
