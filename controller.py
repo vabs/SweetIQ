@@ -197,22 +197,17 @@ def find_account(account_id):
 	listings = Listing.query.filter(Listing.location_id == location_id).all()
 	reviews = Reviews.query.filter(Reviews.location_id == location_id).all()
 	worst_reviews = db.session.query("wrating", "wcomment", "wdomain").from_statement("select r.rating as wrating ,r.comment as wcomment,l.domain as wdomain from reviews as r left join listing as l on l.unique_hash=r.unique_hash where r.comment!='' order by r.rating limit 3").params(location_id=location_id).all()
+	review_stats_raw_result = db.session.query('total', 'average_rating').from_statement("select count(*) as total, avg(rating) as average_rating from reviews").params(location_id=location_id).all()
 	
-	
-	
-	#print "Listings found: ", listings
-
-	#print "Reviews found: ", reviews
-
 	
 	l_data = []
 	r_data = []
 	chart_data = []
 	wreview_data=[]
+	review_stats = {}
 	temp = {}
 	
 	pprint(charts)
-	#print 'worst reviews length: ', len(worst_reviews)
 	
 	for chart in charts:
 		c = {
@@ -261,10 +256,15 @@ def find_account(account_id):
 		r_data.append(temp)
 		temp = {}
 	
+	for stat in review_stats_raw_result:
+		review_stats['total_reviews'] = stat[0]
+		review_stats['average_rating'] = stat[1]
+	
 	response['listings'] = l_data
 	response['reviews'] = r_data
 	response['charts'] = chart_data
 	response['worst_reviews'] = wreview_data
+	response['review_stats'] = review_stats
 
 	return jsonify(**response)
 	
