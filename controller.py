@@ -196,7 +196,7 @@ def find_account(account_id):
 	charts = db.session.query("count", "average_rating", "month", "unixdate").from_statement("select count(*), avg(rating) as average_rating, date_trunc('month', reviewdate) as month, extract(epoch from date_trunc('month', reviewdate)) * 1000 as unixdate from reviews where location_id = :location_id group by month order by month").params(location_id=location_id).all()
 	listings = Listing.query.filter(Listing.location_id == location_id).all()
 	reviews = Reviews.query.filter(Reviews.location_id == location_id).all()
-	worst_reviews = db.session.query("wrating", "wcomment", "wdomain").from_statement("select r.rating as wrating,r.comment as wcomment, r.unique_hash as wdomain from reviews as r").params(location_id=location_id).all()
+	worst_reviews = db.session.query("wrating", "wcomment", "wdomain").from_statement("select r.rating ,r.comment , r.unique_hash  from reviews as r").params(location_id=location_id).all()
 	
 	
 	
