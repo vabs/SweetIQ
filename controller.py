@@ -33,12 +33,14 @@ def find_location():
 	phone = params.get('phone')
 	industry = params.get('industry')
 	
+	
 	print "Find Location"
 	
 	listing_callback_url =  APP_URL + 'listing_callback'
 	review_callback_url =  APP_URL + 'review_callback'
 	completed_callback_url =  APP_URL + 'completed_callback'
 
+	
 	#print "Listing callback " , listing_callback_url
 	#print "Review callback " , review_callback_url
 
@@ -127,16 +129,16 @@ def error():
 def listing_callback():
 	print "listing callback"
 
-	#listing_hash = request.form.get('unique_hash')
+	#
 	listing_resp = json.loads(request.form.get('listing'))
 	if listing_resp:
 		name = listing_resp.get('name')
 		domain = listing_resp.get('domain')
 		link = listing_resp.get('link')
 		accuracy = "{0:.2f}".format(listing_resp.get('accuracy'))
-		
+		listing_hash = request.form.get('unique_hash')
 		location_id = request.form.get('token_id')
-		listing = Listing(location_id = location_id, name=name, domain=domain, link=link, accuracy=accuracy)
+		listing = Listing(location_id = location_id, name=name, domain=domain, link=link, accuracy=accuracy,unique_hash=listing_hash)
 
 		db.session.add(listing)
 		db.session.commit()
@@ -148,14 +150,15 @@ def listing_callback():
 def review_callback():
 	print "review callback"
 	location_id = request.form.get('token_id')
-	#review_hash = request.form.get('unique_hash')
+	
 	review_resp = json.loads(request.form.get('review'))
 	if review_resp:
 		review_id = review_resp.get('review_id')
 		rating = review_resp.get('rating')
 		comment = review_resp.get('excerpt')
 		reviewdate = review_resp.get('date')
-		review = Reviews(rating = rating, location_id = location_id, comment = comment, reviewdate = reviewdate)
+		review_hash = request.form.get('unique_hash')
+		review = Reviews(rating = rating, location_id = location_id, comment = comment, reviewdate = reviewdate, unique_hash=review_hash)
 
 		db.session.add(review)
 		try:
@@ -193,6 +196,9 @@ def find_account(account_id):
 	charts = db.session.query("count", "average_rating", "month", "unixdate").from_statement("select count(*), avg(rating) as average_rating, date_trunc('month', reviewdate) as month, extract(epoch from date_trunc('month', reviewdate)) * 1000 as unixdate from reviews where location_id = :location_id group by month order by month").params(location_id=location_id).all()
 	listings = Listing.query.filter(Listing.location_id == location_id).all()
 	reviews = Reviews.query.filter(Reviews.location_id == location_id).all()
+	worst_reviews = db.session.query("wrating", "wcomment", "wdomain").from_statement("select r.rating as wrating,r.comment as wcomment, r.unique_hash as wdomain from reviews as r").params(location_id=location_id).all()
+	
+	
 	
 	#print "Listings found: ", listings
 
@@ -202,9 +208,11 @@ def find_account(account_id):
 	l_data = []
 	r_data = []
 	chart_data = []
+	wreview_data=[]
 	temp = {}
 	
 	pprint(charts)
+	print 'worst reviews length: ', len(worst_reviews)
 	
 	for chart in charts:
 		c = {
@@ -215,6 +223,15 @@ def find_account(account_id):
 		}
 		chart_data.append(c)
 	
+	if len(worst_reviews) > 0:
+		for worst_review in worst_reviews:
+			w = {
+				'wrating': int(worst_review[0]),
+				'wcomment': str(worst_review[1]),
+				'wdomain': str(worst_review[2])
+			}
+			wreview_data.append(w)	
+	
 	for listing in listings:
 		#if listing.name is None or listing.name is ''  :
 			#pass
@@ -223,6 +240,7 @@ def find_account(account_id):
 		temp['domain'] = listing.domain
 		temp['link'] = listing.link
 		temp['accuracy'] = listing.accuracy
+		temp['unique_hash']=listing.unique_hash
 
 		l_data.append(temp)
 		temp = {}
@@ -233,21 +251,20 @@ def find_account(account_id):
 		temp['comment'] = review.comment		
 		r_date = review.reviewdate
 		temp['reviewdate'] = r_date.strftime('%d/%m/%Y')
+		temp['unique_hash']=review.unique_hash
 		
-		#temp['unixdate'] =time.mktime(r_date.timetuple()) + r_date.microsecond * 1e-6
 		temp['unixdate'] =time.mktime(r_date.timetuple())*10000
 		
 		
-		#select count(*), date_trunc('month', reviewdate) as month, extract(epoch from date_trunc('month', reviewdate)) * 1000 as unix  from reviews group by month order by month
 		
-
 				
 		r_data.append(temp)
 		temp = {}
 	
 	response['listings'] = l_data
 	response['reviews'] = r_data
-	response['charts']=chart_data
+	response['charts'] = chart_data
+	response['worst_reviews'] = wreview_data
 
 	return jsonify(**response)
 	

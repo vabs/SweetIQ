@@ -22,6 +22,7 @@ class Listing(db.Model):
 	name = db.Column(db.String(150))
 	link = db.Column(db.String(500))
 	accuracy = db.Column(db.Float)
+	unique_hash=db.Column(db.String(150))
     
 
 class Reviews(db.Model):
@@ -30,4 +31,6 @@ class Reviews(db.Model):
 	rating = db.Column(db.Integer)
 	comment = db.Column(db.String(500))
 	reviewdate = db.Column(db.Date)
-	
+	unique_hash=db.Column(db.String(150))
+	#review_id = db.Column(db.String, primary_key=True)
+    #listing_id = db.Column(db.Integer, db.ForeignKey('listing.listing_id'), index=True)
