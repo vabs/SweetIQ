@@ -224,7 +224,8 @@ def find_account(account_id):
 			w = {
 				'wrating': int(worst_review[0]),
 				'wcomment': str(worst_review[1]),
-				'wdomain': str(worst_review[2])
+				'wdomain': str(worst_review[2]),
+				'wdate': str(worst_review[3])
 			}
 			wreview_data.append(w)	
 	
