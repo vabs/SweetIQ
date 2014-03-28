@@ -138,7 +138,7 @@ def listing_callback():
 		accuracy = "{0:.2f}".format(listing_resp.get('accuracy'))
 		listing_hash = request.form.get('unique_hash')
 		location_id = request.form.get('token_id')
-		listing = Listing(location_id = location_id, name=name, domain=domain, link=link, accuracy=accuracy,unique_hash=unique_hash)
+		listing = Listing(location_id = location_id, name=name, domain=domain, link=link, accuracy=accuracy,unique_hash=listing_hash)
 
 		db.session.add(listing)
 		db.session.commit()
@@ -158,7 +158,7 @@ def review_callback():
 		comment = review_resp.get('excerpt')
 		reviewdate = review_resp.get('date')
 		review_hash = request.form.get('unique_hash')
-		review = Reviews(rating = rating, location_id = location_id, comment = comment, reviewdate = reviewdate,unique_hash=unique_hash)
+		review = Reviews(rating = rating, location_id = location_id, comment = comment, reviewdate = reviewdate, unique_hash=review_hash)
 
 		db.session.add(review)
 		try:
