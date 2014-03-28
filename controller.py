@@ -212,7 +212,7 @@ def find_account(account_id):
 	temp = {}
 	
 	pprint(charts)
-	print 'worst reviews length: ', len(worst_reviews)
+	#print 'worst reviews length: ', len(worst_reviews)
 	
 	for chart in charts:
 		c = {
