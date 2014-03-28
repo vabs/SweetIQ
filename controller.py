@@ -263,8 +263,8 @@ def find_account(account_id):
 	
 	response['listings'] = l_data
 	response['reviews'] = r_data
-	response['charts']=chart_data
-	response['worst_reviews']=wreview_data
+	response['charts'] = chart_data
+	response['worst_reviews'] = wreview_data
 
 	return jsonify(**response)
 	
