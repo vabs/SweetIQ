@@ -260,7 +260,10 @@ def find_account(account_id):
 	
 	for stat in review_stats_raw_result:
 		review_stats['total_reviews'] = int(stat[0])
-		review_stats['average_rating'] = float(stat[1])
+		if stat[1]:
+			review_stats['average_rating'] = float(stat[1])
+		else:
+			review_stats['average_rating'] = 0.0
 		
 	for rating_group in star_rating_distribution_raw_result:
 		star_rating_distribution["group%s" % str(int(rating_group[0]))] = int(rating_group[1])
