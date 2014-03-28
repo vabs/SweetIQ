@@ -129,16 +129,16 @@ def error():
 def listing_callback():
 	print "listing callback"
 
-	#listing_hash = request.form.get('unique_hash')
+	#
 	listing_resp = json.loads(request.form.get('listing'))
 	if listing_resp:
 		name = listing_resp.get('name')
 		domain = listing_resp.get('domain')
 		link = listing_resp.get('link')
 		accuracy = "{0:.2f}".format(listing_resp.get('accuracy'))
-		
+		listing_hash = request.form.get('unique_hash')
 		location_id = request.form.get('token_id')
-		listing = Listing(location_id = location_id, name=name, domain=domain, link=link, accuracy=accuracy)
+		listing = Listing(location_id = location_id, name=name, domain=domain, link=link, accuracy=accuracy,unique_hash=unique_hash)
 
 		db.session.add(listing)
 		db.session.commit()
@@ -150,14 +150,15 @@ def listing_callback():
 def review_callback():
 	print "review callback"
 	location_id = request.form.get('token_id')
-	#review_hash = request.form.get('unique_hash')
+	
 	review_resp = json.loads(request.form.get('review'))
 	if review_resp:
 		review_id = review_resp.get('review_id')
 		rating = review_resp.get('rating')
 		comment = review_resp.get('excerpt')
 		reviewdate = review_resp.get('date')
-		review = Reviews(rating = rating, location_id = location_id, comment = comment, reviewdate = reviewdate)
+		review_hash = request.form.get('unique_hash')
+		review = Reviews(rating = rating, location_id = location_id, comment = comment, reviewdate = reviewdate,unique_hash=unique_hash)
 
 		db.session.add(review)
 		try:
@@ -238,6 +239,7 @@ def find_account(account_id):
 		temp['domain'] = listing.domain
 		temp['link'] = listing.link
 		temp['accuracy'] = listing.accuracy
+		temp['unique_hash']=listing.unique_hash
 
 		l_data.append(temp)
 		temp = {}
@@ -248,7 +250,7 @@ def find_account(account_id):
 		temp['comment'] = review.comment		
 		r_date = review.reviewdate
 		temp['reviewdate'] = r_date.strftime('%d/%m/%Y')
-		
+		temp['unique_hash']=review.unique_hash
 		
 		temp['unixdate'] =time.mktime(r_date.timetuple())*10000
 		
