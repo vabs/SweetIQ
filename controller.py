@@ -212,7 +212,7 @@ def find_account(account_id):
 	temp = {}
 	
 	pprint(charts)
-	print len(worst_reviews)
+	print 'worst reviews length: ', len(worst_reviews)
 	
 	for chart in charts:
 		c = {
@@ -222,14 +222,15 @@ def find_account(account_id):
 			'unixdate': int(chart[3][1])
 		}
 		chart_data.append(c)
-		
-	for worst_review in worst_reviews:
-		w = {
-			'wrating': int(worst_review[0][1]),
-			'wcomment': str(worst_review[1][1]),
-			'wdomain': str(worst_review[2][1])
-		}
-		wreview_data.append(w)	
+	
+	if len(worst_reviews) > 0:
+		for worst_review in worst_reviews:
+			w = {
+				'wrating': int(worst_review[0][1]),
+				'wcomment': str(worst_review[1][1]),
+				'wdomain': str(worst_review[2][1])
+			}
+			wreview_data.append(w)	
 	
 	for listing in listings:
 		#if listing.name is None or listing.name is ''  :
