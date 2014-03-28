@@ -212,6 +212,7 @@ def find_account(account_id):
 	temp = {}
 	
 	pprint(charts)
+	print len(worst_reviews)
 	
 	for chart in charts:
 		c = {
@@ -224,10 +225,9 @@ def find_account(account_id):
 		
 	for worst_review in worst_reviews:
 		w = {
-			'wrating': int(chart[0][1]),
-			'wcomment': str(chart[1][1]),
-			'wdomain': str(chart[2][1]),
-			
+			'wrating': int(worst_review[0][1]),
+			'wcomment': str(worst_review[1][1]),
+			'wdomain': str(worst_review[2][1])
 		}
 		wreview_data.append(w)	
 	
