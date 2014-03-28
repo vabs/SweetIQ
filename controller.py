@@ -195,6 +195,9 @@ def find_account(account_id):
 	charts = db.session.query("count", "average_rating", "month", "unixdate").from_statement("select count(*), avg(rating) as average_rating, date_trunc('month', reviewdate) as month, extract(epoch from date_trunc('month', reviewdate)) * 1000 as unixdate from reviews where location_id = :location_id group by month order by month").params(location_id=location_id).all()
 	listings = Listing.query.filter(Listing.location_id == location_id).all()
 	reviews = Reviews.query.filter(Reviews.location_id == location_id).all()
+	worst_reviews = db.session.query("wrating", "wcomment", "wdomain").from_statement("select distinct r.rating,r.comment,l.domain from reviews as r join listing as l on r.location_id=l.location_id order by rating limit 3").params(location_id=location_id).all()
+	
+	
 	
 	#print "Listings found: ", listings
 
@@ -204,6 +207,7 @@ def find_account(account_id):
 	l_data = []
 	r_data = []
 	chart_data = []
+	wreview_data=[]
 	temp = {}
 	
 	pprint(charts)
@@ -216,6 +220,15 @@ def find_account(account_id):
 			'unixdate': int(chart[3][1])
 		}
 		chart_data.append(c)
+		
+	for worst_review in worst_reviews:
+		w = {
+			'wrating': int(chart[0][1]),
+			'wcomment': float(chart[1][1]),
+			'wdomain': str(chart[2][1]),
+			
+		}
+		wreview_data.append(w)	
 	
 	for listing in listings:
 		#if listing.name is None or listing.name is ''  :
@@ -236,13 +249,11 @@ def find_account(account_id):
 		r_date = review.reviewdate
 		temp['reviewdate'] = r_date.strftime('%d/%m/%Y')
 		
-		#temp['unixdate'] =time.mktime(r_date.timetuple()) + r_date.microsecond * 1e-6
+		
 		temp['unixdate'] =time.mktime(r_date.timetuple())*10000
 		
 		
-		#select count(*), date_trunc('month', reviewdate) as month, extract(epoch from date_trunc('month', reviewdate)) * 1000 as unix  from reviews group by month order by month
 		
-
 				
 		r_data.append(temp)
 		temp = {}
@@ -250,6 +261,7 @@ def find_account(account_id):
 	response['listings'] = l_data
 	response['reviews'] = r_data
 	response['charts']=chart_data
+	response['worst_reviews']=wreview_data
 
 	return jsonify(**response)
 	
