@@ -39,6 +39,7 @@ def find_location():
 	review_callback_url =  APP_URL + 'review_callback'
 	completed_callback_url =  APP_URL + 'completed_callback'
 
+	
 	#print "Listing callback " , listing_callback_url
 	#print "Review callback " , review_callback_url
 
