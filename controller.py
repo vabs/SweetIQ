@@ -257,8 +257,8 @@ def find_account(account_id):
 		temp = {}
 	
 	for stat in review_stats_raw_result:
-		review_stats['total_reviews'] = stat[0]
-		review_stats['average_rating'] = stat[1]
+		review_stats['total_reviews'] = int(stat[0])
+		review_stats['average_rating'] = float(stat[1])
 	
 	response['listings'] = l_data
 	response['reviews'] = r_data
