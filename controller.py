@@ -214,10 +214,10 @@ def find_account(account_id):
 	
 	for chart in charts:
 		c = {
-			'count': int(chart[0][1]),
-			'average_rating': float(chart[1][1]),
-			'month': str(chart[2][1]),
-			'unixdate': int(chart[3][1])
+			'count': int(chart[0]),
+			'average_rating': float(chart[1]),
+			'month': str(chart[2]),
+			'unixdate': int(chart[3])
 		}
 		chart_data.append(c)
 		
