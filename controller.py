@@ -196,7 +196,7 @@ def find_account(account_id):
 	charts = db.session.query("count", "average_rating", "month", "unixdate").from_statement("select count(*), avg(rating) as average_rating, date_trunc('month', reviewdate) as month, extract(epoch from date_trunc('month', reviewdate)) * 1000 as unixdate from reviews where location_id = :location_id group by month order by month").params(location_id=location_id).all()
 	listings = Listing.query.filter(Listing.location_id == location_id).all()
 	reviews = Reviews.query.filter(Reviews.location_id == location_id).all()
-	worst_reviews = db.session.query("wrating", "wcomment", "wdomain").from_statement("select r.rating as wrating,r.comment as wcomment, r.unique_hash as wdomain from reviews as r").params(location_id=location_id).all()
+	worst_reviews = db.session.query("wrating", "wcomment", "wdomain").from_statement("select distinct r.rating,r.comment,l.domain from reviews as r join listing as l on r.unique_hash=l.unique_hash order by rating limit 3").params(location_id=location_id).all()
 	
 	
 	
@@ -223,14 +223,14 @@ def find_account(account_id):
 		}
 		chart_data.append(c)
 	
-	#if len(worst_reviews) > 0:
-	#	for worst_review in worst_reviews:
-	#		w = {
-	#			'wrating': int(worst_review[0][1]),
-	#			'wcomment': str(worst_review[1][1]),
-	#			'wdomain': str(worst_review[2][1])
-	#		}
-	#		wreview_data.append(w)	
+	if len(worst_reviews) > 0:
+		for worst_review in worst_reviews:
+			w = {
+				'wrating': int(worst_review[0]),
+				'wcomment': str(worst_review[1]),
+				'wdomain': str(worst_review[2])
+			}
+			wreview_data.append(w)	
 	
 	for listing in listings:
 		#if listing.name is None or listing.name is ''  :
