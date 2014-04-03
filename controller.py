@@ -23,19 +23,19 @@ setattr(app,'tokens', {})
 def hello():
     return render_template('home.html')
 
-#@app.route('/leadtoaccount/<account_id>&<lead_id>')
-#def lead_to_account(account_id,lead_id):
-	#ls = location.query.filter(location.account_id==lead_id).all()
+@app.route('/leadtoaccount/<account_id>&<lead_id>')
+def lead_to_account(account_id,lead_id):
+	ls = location.query.filter(location.account_id==lead_id).all()
 	
-	#print "changing the lead id to account id"
+	print "changing the lead id to account id"
 	
-	#account_id = ''
-	#location_id =''
+	account_id = ''
+	location_id =''
 	
-	#for l in ls:
-		#location_id = l.location_id
-		#account_id_from_db = l.account_id
-		#db.session.query().from_statement("update location set account_id=:account_id where account_id=:lead_id").params().all()
+	for l in ls:
+		location_id = l.location_id
+		account_id_from_db = l.account_id
+		db.session.query().from_statement("update location set account_id=:account_id where account_id=:lead_id").params().all()
 	
 
 	
