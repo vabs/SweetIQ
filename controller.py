@@ -23,6 +23,23 @@ setattr(app,'tokens', {})
 def hello():
     return render_template('home.html')
 
+@app.route('/leadtoaccount/<account_id>&<lead_id>')
+def lead_to_account(account_id,lead_id):
+	ls = location.query.filter(location.account_id==lead_id).all()
+	
+	print "changing the lead id to account id"
+	
+	account_id = ''
+	#location_id =''
+	
+	for l in ls:
+		#location_id = l.location_id
+		#account_id_from_db = l.account_id
+		
+	db.session.query().from_statement("update location set account_id=:account_id where account_id=:lead_id").params().all()
+	
+
+	
 
 @app.route('/find', methods = ['GET', 'POST'])
 def find_location():
@@ -194,8 +211,9 @@ def find_account(account_id):
 		location_id = l.location_id
 		
 	charts = db.session.query("count", "average_rating", "month", "unixdate").from_statement("select count(*), avg(rating) as average_rating, date_trunc('month', reviewdate) as month, extract(epoch from date_trunc('month', reviewdate)) * 1000 as unixdate from reviews where location_id = :location_id group by month order by month").params(location_id=location_id).all()
+	reviews = db.session.query('rating', 'comment','reviewdate').from_statement('select rating ,comment,reviewdate from reviews where rating is not null and location_id = :location_id order by reviewdate').params(location_id=location_id).all()
 	listings = Listing.query.filter(Listing.location_id == location_id).all()
-	reviews = Reviews.query.filter(Reviews.location_id == location_id).all()
+	#reviews = Reviews.query.filter(Reviews.location_id == location_id).all()
 	worst_reviews = db.session.query("wrating", "wcomment", "wdomain", "wdate").from_statement("select r.rating as wrating ,r.comment as wcomment,l.domain as wdomain, r.reviewdate as wdate from reviews as r left join listing as l on l.unique_hash=r.unique_hash where r.location_id = :location_id and r.comment!='' order by r.rating, random() limit 3").params(location_id=location_id).all()
 	review_stats_raw_result = db.session.query('total', 'average_rating').from_statement("select count(*) as total, avg(rating) as average_rating from reviews where location_id = :location_id").params(location_id=location_id).all()
 	star_rating_distribution_raw_result = db.session.query('floor_rating', 'total').from_statement('select floor(rating) as floor_rating, count(*) as total from reviews where rating is not null and location_id = :location_id group by floor_rating order by floor_rating').params(location_id=location_id).all()
@@ -210,14 +228,7 @@ def find_account(account_id):
 	
 	pprint(charts)
 	
-	for chart in charts:
-		c = {
-			'count': int(chart[0]),
-			'average_rating': float(chart[1]),
-			'month': str(chart[2]),
-			'unixdate': int(chart[3])
-		}
-		chart_data.append(c)
+	
 	
 	if len(worst_reviews) > 0:
 		for worst_review in worst_reviews:
@@ -241,7 +252,16 @@ def find_account(account_id):
 
 		l_data.append(temp)
 		temp = {}
-	
+		
+	for chart in charts:
+		c = {
+			'count': int(chart[0]),
+			'average_rating': float(chart[1]),
+			'month': str(chart[2]),
+			'unixdate': int(chart[3])
+		}
+		chart_data.append(c)
+		
 	for review in reviews:
 		
 		temp['rating'] = review.rating
@@ -249,12 +269,7 @@ def find_account(account_id):
 		r_date = review.reviewdate
 		temp['reviewdate'] = r_date.strftime('%d/%m/%Y')
 		temp['unique_hash']=review.unique_hash
-		
 		temp['unixdate'] =time.mktime(r_date.timetuple())*10000
-		
-		
-		
-				
 		r_data.append(temp)
 		temp = {}
 	
