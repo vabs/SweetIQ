@@ -210,9 +210,9 @@ def find_account(account_id):
 		location_id = l.location_id
 		
 	charts = db.session.query("count", "average_rating", "month", "unixdate").from_statement("select count(*), avg(rating) as average_rating, date_trunc('month', reviewdate) as month, extract(epoch from date_trunc('month', reviewdate)) * 1000 as unixdate from reviews where location_id = :location_id group by month order by month").params(location_id=location_id).all()
-	reviews = db.session.query('rating', 'comment','reviewdate').from_statement('select rating ,comment,reviewdate from reviews where rating is not null and location_id = :location_id order by reviewdate').params(location_id=location_id).all()
+	#reviews = db.session.query('rating', 'comment','reviewdate').from_statement('select rating ,comment,reviewdate from reviews where rating is not null and location_id = :location_id order by reviewdate').params(location_id=location_id).all()
 	listings = Listing.query.filter(Listing.location_id == location_id).all()
-	#reviews = Reviews.query.filter(Reviews.location_id == location_id).all()
+	reviews = Reviews.query.filter(Reviews.location_id == location_id).all()
 	worst_reviews = db.session.query("wrating", "wcomment", "wdomain", "wdate").from_statement("select r.rating as wrating ,r.comment as wcomment,l.domain as wdomain, r.reviewdate as wdate from reviews as r left join listing as l on l.unique_hash=r.unique_hash where r.location_id = :location_id and r.comment!='' order by r.rating, random() limit 3").params(location_id=location_id).all()
 	review_stats_raw_result = db.session.query('total', 'average_rating').from_statement("select count(*) as total, avg(rating) as average_rating from reviews where location_id = :location_id").params(location_id=location_id).all()
 	star_rating_distribution_raw_result = db.session.query('floor_rating', 'total').from_statement('select floor(rating) as floor_rating, count(*) as total from reviews where rating is not null and location_id = :location_id group by floor_rating order by floor_rating').params(location_id=location_id).all()
