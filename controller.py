@@ -35,8 +35,7 @@ def lead_to_account(account_id,lead_id):
 	for l in ls:
 		#location_id = l.location_id
 		#account_id_from_db = l.account_id
-		
-	db.session.query().from_statement("update location set account_id=:account_id where account_id=:lead_id").params().all()
+		db.session.query().from_statement("update location set account_id=:account_id where account_id=:lead_id").params().all()
 	
 
 	
